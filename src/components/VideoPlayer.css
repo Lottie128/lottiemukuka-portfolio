@@ -1,0 +1,21 @@
+.video-player {
+  margin: 1rem 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+}
+
+.video-element {
+  width: 100%;
+  height: auto;
+  min-height: 300px;
+  display: block;
+}
+
+.video-title {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 0.75rem;
+  margin: 0;
+  font-size: 0.9rem;
+}
