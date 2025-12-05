@@ -1,0 +1,58 @@
+.portfolio-page {
+  min-height: 100vh;
+  padding-top: 80px;
+}
+
+.page-header {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: white;
+}
+
+.page-header h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  color: white;
+  background: none;
+  -webkit-text-fill-color: white;
+}
+
+.page-header p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  color: white;
+}
+
+.loading-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: white;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+@media (max-width: 768px) {
+  .page-header h1 {
+    font-size: 2.5rem;
+  }
+}
