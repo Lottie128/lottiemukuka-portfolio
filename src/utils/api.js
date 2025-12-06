@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = import.meta.env.VITE_API_URL || '/api'
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
 const api = axios.create({
   baseURL: API_URL,
@@ -34,6 +34,11 @@ export const createPost = async (postData) => {
   return response.data
 }
 
+export const updatePost = async (postData) => {
+  const response = await api.put('/posts.php', postData)
+  return response.data
+}
+
 // Courses
 export const getCourses = async () => {
   try {
@@ -47,6 +52,11 @@ export const getCourses = async () => {
 
 export const createCourse = async (courseData) => {
   const response = await api.post('/courses.php', courseData)
+  return response.data
+}
+
+export const updateCourse = async (courseData) => {
+  const response = await api.put('/courses.php', courseData)
   return response.data
 }
 

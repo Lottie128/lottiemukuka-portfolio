@@ -10,9 +10,15 @@
   margin-top: 2rem;
 }
 
+.course-link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .course-card {
   overflow: hidden;
   transition: transform 0.3s ease;
+  cursor: pointer;
 }
 
 .course-card:hover {
@@ -30,6 +36,11 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.course-card:hover .course-thumbnail img {
+  transform: scale(1.1);
 }
 
 .course-content h3 {
@@ -39,26 +50,32 @@
 
 .course-content p {
   margin-bottom: 1.5rem;
-}
-
-.course-videos {
-  margin-top: 1.5rem;
-}
-
-.course-videos h4 {
-  margin-bottom: 1rem;
-  color: var(--dark);
-  font-size: 1.1rem;
+  color: var(--text);
 }
 
 .course-meta {
   display: flex;
   gap: 1rem;
-  margin-top: 1rem;
+  margin: 1rem 0;
   padding-top: 1rem;
   border-top: 1px solid #e2e8f0;
   color: #64748b;
   font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.view-course {
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: gap 0.3s ease;
+}
+
+.course-card:hover .view-course {
+  gap: 0.5rem;
 }
 
 @media (max-width: 768px) {

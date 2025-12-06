@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-import VideoPlayer from '../components/VideoPlayer'
+import { Link } from 'react-router-dom'
 import { getCourses } from '../utils/api'
+import { getGoogleDriveImageUrl } from '../utils/helpers'
 import './Courses.css'
 
 function Courses() {
@@ -37,34 +38,24 @@ function Courses() {
         ) : courses.length > 0 ? (
           <div className="courses-grid">
             {courses.map(course => (
-              <div key={course.id} className="course-card card">
-                {course.thumbnail && (
-                  <div className="course-thumbnail">
-                    <img src={course.thumbnail} alt={course.title} />
-                  </div>
-                )}
-                <div className="course-content">
-                  <h3>{course.title}</h3>
-                  <p>{course.description}</p>
-                  {course.videos && course.videos.length > 0 && (
-                    <div className="course-videos">
-                      <h4>Course Videos ({course.videos.length})</h4>
-                      {course.videos.map((video, i) => (
-                        <VideoPlayer 
-                          key={i} 
-                          url={video.url} 
-                          title={video.title || `Lesson ${i + 1}`} 
-                        />
-                      ))}
+              <Link key={course.id} to={`/courses/${course.id}`} className="course-link">
+                <div className="course-card card">
+                  {course.thumbnail && (
+                    <div className="course-thumbnail">
+                      <img src={getGoogleDriveImageUrl(course.thumbnail)} alt={course.title} />
                     </div>
                   )}
-                  {course.duration && (
+                  <div className="course-content">
+                    <h3>{course.title}</h3>
+                    <p>{course.description.substring(0, 120)}...</p>
                     <div className="course-meta">
-                      <span>⏱️ {course.duration}</span>
+                      {course.duration && <span>⏱️ {course.duration}</span>}
+                      {course.videos && <span>📹 {course.videos.length} lessons</span>}
                     </div>
-                  )}
+                    <span className="view-course">View Course →</span>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         ) : (

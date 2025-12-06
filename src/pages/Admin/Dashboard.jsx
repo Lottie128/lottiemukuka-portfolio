@@ -5,18 +5,22 @@ import './Admin.css'
 
 function Dashboard() {
   const [stats, setStats] = useState({ posts: 0, courses: 0 })
+  const [posts, setPosts] = useState([])
+  const [courses, setCourses] = useState([])
 
   useEffect(() => {
-    loadStats()
+    loadData()
   }, [])
 
-  const loadStats = async () => {
+  const loadData = async () => {
     try {
-      const posts = await getPosts()
-      const courses = await getCourses()
-      setStats({ posts: posts.length, courses: courses.length })
+      const postsData = await getPosts()
+      const coursesData = await getCourses()
+      setPosts(postsData)
+      setCourses(coursesData)
+      setStats({ posts: postsData.length, courses: coursesData.length })
     } catch (error) {
-      console.error('Error loading stats:', error)
+      console.error('Error loading data:', error)
     }
   }
 
@@ -61,6 +65,48 @@ function Dashboard() {
             </div>
           </Link>
         </div>
+
+        {posts.length > 0 && (
+          <div className="content-list">
+            <h2>Recent Posts</h2>
+            <div className="list-grid">
+              {posts.slice(0, 6).map(post => (
+                <div key={post.id} className="list-item card">
+                  <h4>{post.title}</h4>
+                  <div className="item-actions">
+                    <Link to={`/portfolio/${post.id}`}>
+                      <button className="btn-view">View</button>
+                    </Link>
+                    <Link to={`/admin/edit-post/${post.id}`}>
+                      <button className="btn-edit">Edit</button>
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {courses.length > 0 && (
+          <div className="content-list">
+            <h2>Recent Courses</h2>
+            <div className="list-grid">
+              {courses.slice(0, 6).map(course => (
+                <div key={course.id} className="list-item card">
+                  <h4>{course.title}</h4>
+                  <div className="item-actions">
+                    <Link to={`/courses/${course.id}`}>
+                      <button className="btn-view">View</button>
+                    </Link>
+                    <Link to={`/admin/edit-course/${course.id}`}>
+                      <button className="btn-edit">Edit</button>
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

@@ -1,0 +1,93 @@
+.course-detail-page {
+  min-height: 100vh;
+  padding-top: 80px;
+  padding-bottom: 4rem;
+}
+
+.course-detail {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.course-detail-thumbnail {
+  width: 100%;
+  height: 350px;
+  overflow: hidden;
+  border-radius: 12px;
+  margin: -2rem -2rem 2rem -2rem;
+}
+
+.course-detail-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.course-detail-header {
+  margin-bottom: 2rem;
+}
+
+.course-detail-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.course-meta {
+  display: flex;
+  gap: 1rem;
+  color: #64748b;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.course-description {
+  font-size: 1.1rem;
+  line-height: 1.9;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: rgba(99, 102, 241, 0.05);
+  border-left: 4px solid var(--primary);
+  border-radius: 8px;
+}
+
+.course-lessons {
+  margin-top: 3rem;
+}
+
+.course-lessons h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: var(--primary);
+}
+
+.lessons-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.lesson-item {
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 12px;
+  border: 2px solid rgba(99, 102, 241, 0.1);
+}
+
+.lesson-header {
+  margin-bottom: 1rem;
+}
+
+.lesson-header h3 {
+  font-size: 1.3rem;
+  color: var(--dark);
+}
+
+@media (max-width: 768px) {
+  .course-detail-header h1 {
+    font-size: 2rem;
+  }
+  
+  .course-detail-thumbnail {
+    height: 200px;
+  }
+}

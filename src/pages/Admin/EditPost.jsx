@@ -1,9 +1,11 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { createPost } from '../../utils/api'
+import { useState, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import { getPosts, updatePost } from '../../utils/api'
 import './Admin.css'
 
-function CreatePost() {
+function EditPost() {
+  const { id } = useParams()
+  const navigate = useNavigate()
   const [post, setPost] = useState({
     title: '',
     content: '',
@@ -12,36 +14,77 @@ function CreatePost() {
     videos: '',
     tags: ''
   })
+  const [loading, setLoading] = useState(true)
   const [success, setSuccess] = useState(false)
-  const navigate = useNavigate()
+
+  useEffect(() => {
+    loadPost()
+  }, [id])
+
+  const loadPost = async () => {
+    try {
+      const posts = await getPosts()
+      const foundPost = posts.find(p => p.id === parseInt(id))
+      if (foundPost) {
+        setPost({
+          id: foundPost.id,
+          title: foundPost.title,
+          content: foundPost.content,
+          cover_image: foundPost.cover_image || '',
+          images: foundPost.images ? foundPost.images.join('\n') : '',
+          videos: foundPost.videos ? foundPost.videos.join('\n') : '',
+          tags: foundPost.tags ? foundPost.tags.join(', ') : ''
+        })
+      }
+    } catch (error) {
+      console.error('Error loading post:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     
     const postData = {
-      ...post,
+      id: parseInt(id),
+      title: post.title,
+      content: post.content,
+      cover_image: post.cover_image,
       images: post.images ? post.images.split('\n').filter(img => img.trim()) : [],
       videos: post.videos ? post.videos.split('\n').filter(vid => vid.trim()) : [],
-      tags: post.tags ? post.tags.split(',').map(tag => tag.trim()) : [],
-      created_at: new Date().toISOString()
+      tags: post.tags ? post.tags.split(',').map(tag => tag.trim()) : []
     }
 
     try {
-      await createPost(postData)
+      await updatePost(postData)
       setSuccess(true)
       setTimeout(() => navigate('/admin/dashboard'), 2000)
     } catch (error) {
-      console.error('Error creating post:', error)
-      alert('Failed to create post')
+      console.error('Error updating post:', error)
+      alert('Failed to update post')
     }
+  }
+
+  if (loading) {
+    return (
+      <div className="admin-page">
+        <div className="container">
+          <div className="loading-state">
+            <div className="spinner"></div>
+            <p>Loading post...</p>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
     <div className="admin-page">
       <div className="container">
         <div className="admin-header">
-          <h1>Create Portfolio Post</h1>
-          <p>Share your latest project or achievement</p>
+          <h1>Edit Portfolio Post</h1>
+          <p>Update your project or achievement</p>
         </div>
 
         <div className="form-card card">
@@ -69,25 +112,25 @@ function CreatePost() {
             </div>
 
             <div className="form-group">
-              <small>Can use regular URL or Google Drive/Photos public link</small>
               <label>Cover Image URL</label>
               <input
-                type="url"
+                type="text"
                 value={post.cover_image}
                 onChange={(e) => setPost({...post, cover_image: e.target.value})}
-                placeholder="https://example.com/cover-image.jpg"
+                placeholder="https://example.com/cover-image.jpg OR Google Drive link"
               />
+              <small>Can use regular URL or Google Drive/Photos public link</small>
             </div>
 
             <div className="form-group">
-              <small>Google Drive links will be automatically converted</small>
               <label>Additional Images (one URL per line)</label>
               <textarea
                 value={post.images}
                 onChange={(e) => setPost({...post, images: e.target.value})}
-                placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg"
+                placeholder="https://example.com/image1.jpg&#10;https://drive.google.com/file/d/FILE_ID/view"
                 rows="4"
               />
+              <small>Google Drive links will be automatically converted</small>
             </div>
 
             <div className="form-group">
@@ -111,10 +154,10 @@ function CreatePost() {
               />
             </div>
 
-            {success && <div className="success-message">Post created successfully!</div>}
+            {success && <div className="success-message">Post updated successfully!</div>}
             
             <div className="form-actions">
-              <button type="submit">Publish Post</button>
+              <button type="submit">Update Post</button>
               <button type="button" onClick={() => navigate('/admin/dashboard')}>Cancel</button>
             </div>
           </form>
@@ -124,4 +167,4 @@ function CreatePost() {
   )
 }
 
-export default CreatePost
+export default EditPost
